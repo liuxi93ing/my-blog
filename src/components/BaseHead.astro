@@ -40,9 +40,14 @@ const ogImage = new URL(image, Astro.site ?? Astro.url);
 <!-- No-flash theme bootstrap: set data-theme on <html> before first paint. -->
 <script is:inline>
   (() => {
+    const override = new URLSearchParams(location.search).get('theme');
     const stored = localStorage.getItem('theme');
     const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    const theme = stored ?? (prefersLight ? 'light' : 'dark');
+    const theme =
+      (override === 'dark' || override === 'light' ? override : null) ??
+      stored ??
+      (prefersLight ? 'light' : 'dark');
     document.documentElement.dataset.theme = theme;
+    if (override === 'dark' || override === 'light') localStorage.setItem('theme', override);
   })();
 </script>
