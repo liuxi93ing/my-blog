@@ -1,0 +1,26 @@
+---
+title: this blog
+description: The minimalist, geek-style static site you're reading right now.
+tech: [Astro, MDX, Tailwind CSS, Pagefind, TypeScript]
+repo: https://github.com/liuxi93ing/blog
+featured: true
+order: 2
+status: active
+---
+
+This site is itself a project. It's a fully static Astro build — Markdown files in a
+Git repo, no database, no server — with a client-side search index and a dark/light
+theme toggle.
+
+See the write-up: [How I built this blog](/blog/building-this-blog).
+
+## Embedding live demos
+
+Project pages can embed live demos. For an app you host elsewhere, drop in an iframe:
+
+```html
+<iframe src="https://your-demo-url.example" loading="lazy"></iframe>
+```
+
+For an interactive React widget, you can import a component and render it as an
+Astro island with a `client:*` directive — only that widget ships JavaScript.

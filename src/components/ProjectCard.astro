@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { toSlug } from '../lib/content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { title, description, tech, status, repo, demoUrl } = project.data;
+const href = `/projects/${toSlug(project.id)}`;
+
+const statusLabel: Record<string, string> = {
+  active: 'active',
+  wip: 'wip',
+  archived: 'archived',
+};
+---
+
+<article class="group flex flex-col rounded-[var(--radius-base)] border border-border bg-surface p-5 transition-colors hover:border-accent">
+  <div class="flex items-start justify-between gap-3">
+    <h3 class="font-mono text-base font-semibold leading-snug">
+      <a href={href} class="transition-colors group-hover:text-accent">{title}</a>
+    </h3>
+    <span class="shrink-0 rounded-[var(--radius-base)] border border-border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">
+      {statusLabel[status]}
+    </span>
+  </div>
+
+  <p class="mt-2 flex-1 text-sm text-muted">{description}</p>
+
+  {
+    tech.length > 0 && (
+      <ul class="mt-3 flex flex-wrap gap-1.5 font-mono text-[11px] text-muted">
+        {tech.map((t) => (
+          <li class="rounded border border-border px-1.5 py-0.5">{t}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="mt-4 flex gap-4 font-mono text-xs">
+    <a href={href} class="text-accent hover:underline">details →</a>
+    {repo && <a href={repo} target="_blank" rel="noopener" class="text-muted hover:text-accent">repo</a>}
+    {demoUrl && <a href={demoUrl} target="_blank" rel="noopener" class="text-muted hover:text-accent">demo</a>}
+  </div>
+</article>

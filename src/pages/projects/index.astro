@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projects" description="Things I've built — with live demos and source.">
+  <div class="mx-auto max-w-5xl">
+    <header class="border-b border-border pb-4">
+      <h1 class="font-mono text-2xl font-semibold">
+        <span class="text-accent">~/</span>projects
+      </h1>
+      <p class="mt-2 text-sm text-muted">Things I've built — demos & source.</p>
+    </header>
+
+    {
+      projects.length ? (
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <p class="py-8 font-mono text-sm text-muted">No projects yet.</p>
+      )
+    }
+  </div>
+</BaseLayout>

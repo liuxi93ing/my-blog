@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIAL } from '../consts';
+---
+
+<BaseLayout title="About" description="Who I am and what I work on.">
+  <div class="mx-auto max-w-[720px]">
+    <header class="border-b border-border pb-4">
+      <h1 class="font-mono text-2xl font-semibold">
+        <span class="text-accent">~/</span>about
+      </h1>
+    </header>
+
+    <div class="prose mt-8">
+      <p>
+        Hi — I'm a software engineer who likes building things: trading systems,
+        developer tooling, and the occasional weekend experiment. This site is where I
+        write up what I learn and show off what I make.
+      </p>
+      <h2>What I work on</h2>
+      <ul>
+        <li>Automated trading & market data infrastructure</li>
+        <li>Backend systems and APIs</li>
+        <li>Small, sharp tools that scratch my own itch</li>
+      </ul>
+      <h2>Find me</h2>
+      <p>
+        <a href={SOCIAL.github} target="_blank" rel="noopener">GitHub</a> ·
+        <a href="/rss.xml">RSS</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

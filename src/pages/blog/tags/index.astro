@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TagPill from '../../../components/TagPill.astro';
+import { getTags } from '../../../lib/content';
+
+const tags = await getTags();
+---
+
+<BaseLayout title="Tags" description="Browse posts by tag.">
+  <div class="mx-auto max-w-3xl">
+    <header class="border-b border-border pb-4">
+      <h1 class="font-mono text-2xl font-semibold">
+        <span class="text-accent">~/</span>blog/tags
+      </h1>
+    </header>
+    <div class="mt-6 flex flex-wrap gap-2">
+      {
+        tags.length ? (
+          tags.map(({ tag, count }) => <TagPill tag={tag} count={count} />)
+        ) : (
+          <p class="font-mono text-sm text-muted">No tags yet.</p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

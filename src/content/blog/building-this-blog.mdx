@@ -1,0 +1,40 @@
+---
+title: How I built this blog
+description: The stack behind the site — Astro, MDX, Tailwind, and a static search index.
+date: 2026-06-26
+tags: [astro, web, meta]
+category: engineering
+---
+
+I wanted a blog that is fast, minimal, and entirely under my control — no database,
+no CMS, just Markdown files in a Git repo. Here's the stack.
+
+## The stack
+
+- **[Astro](https://astro.build)** — ships near-zero JavaScript; pages are static HTML
+- **MDX** — Markdown with the option to drop in interactive components
+- **Tailwind CSS v4** — utility styling via the Vite plugin
+- **Pagefind** — a static, full-text search index built at deploy time
+- **Shiki** — build-time syntax highlighting (the code blocks you see here)
+
+## Content is just files
+
+Every post is an `.mdx` file with frontmatter:
+
+```yaml
+---
+title: How I built this blog
+date: 2026-06-26
+tags: [astro, web, meta]
+---
+```
+
+Astro's content collections validate that frontmatter with a Zod schema at build
+time, so a typo in a date or a missing title fails the build instead of shipping
+broken pages.
+
+## Why static?
+
+Static output means the whole site is a folder of files any CDN can serve. It's
+cheap (free, really), fast everywhere, and there's nothing to keep patched. To
+publish, I write a file and `git push`.

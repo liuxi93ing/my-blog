@@ -1,0 +1,48 @@
+---
+// Minimal dark/light toggle. State lives on <html data-theme> + localStorage.
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="grid h-9 w-9 place-items-center rounded-[var(--radius-base)] border border-border text-muted transition-colors hover:border-accent hover:text-accent"
+  aria-label="Toggle color theme"
+  title="Toggle theme"
+>
+  <!-- sun (shown in dark mode → click for light) -->
+  <svg class="sun h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"></path>
+  </svg>
+  <!-- moon (shown in light mode → click for dark) -->
+  <svg class="moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+</button>
+
+<style>
+  /* Show the icon for the theme you can switch *to*. */
+  :global([data-theme='dark']) .moon {
+    display: none;
+  }
+  :global([data-theme='light']) .sun {
+    display: none;
+  }
+</style>
+
+<script>
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = 'true';
+    btn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    });
+  }
+  setupThemeToggle();
+  // Re-bind after Astro view transitions swap the DOM.
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+</script>

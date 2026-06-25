@@ -1,0 +1,46 @@
+---
+title: ib_bot — IBKR trading & backtest engine
+description: A lightweight Interactive Brokers strategy + backtesting framework for experimenting with market data and order execution.
+tech: [Python, Interactive Brokers API, Poetry, pytest, pandas]
+repo: https://github.com/liuxi93ing/trading_bot_ibkr
+featured: true
+order: 1
+status: active
+---
+
+**ib_bot** is a compact framework for prototyping trading strategies against
+Interactive Brokers — both live order execution and historical backtesting from a
+single codebase.
+
+## What it does
+
+- Connects to IB Gateway / TWS to stream market data and place orders
+- Runs strategies defined in a small, swappable strategy module
+- Backtests the same strategy logic against saved historical data
+- Ships with a pytest suite so changes don't silently break execution
+
+## Architecture
+
+The project keeps the moving parts deliberately separate:
+
+| Module | Responsibility |
+|--------|----------------|
+| `config.py` | Connection, symbols, and strategy parameters |
+| `data_manager.py` | Market data fetching & caching |
+| `strategy.py` | Signal generation logic |
+| `execution.py` | Order placement & lifecycle |
+| `backtest_engine/` | Replays strategies over historical CSVs |
+
+## Running a backtest
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python backtest_engine/backtest_main.py
+```
+
+## Notes
+
+This is an experimentation harness, not financial advice or a production trading
+system. It exists to make it cheap to test an idea end-to-end: data in, signal out,
+order (or simulated fill) executed.

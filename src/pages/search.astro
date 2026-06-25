@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Search" description="Search posts and projects.">
+  <div class="mx-auto max-w-2xl">
+    <header class="border-b border-border pb-4">
+      <h1 class="font-mono text-2xl font-semibold">
+        <span class="text-accent">~/</span>search
+      </h1>
+    </header>
+
+    <div id="search" class="mt-6"></div>
+    <p id="search-hint" class="mt-3 font-mono text-xs text-muted">
+      Note: search runs against the built site. Run <code>npm run build &amp;&amp; npm run preview</code> to try it locally.
+    </p>
+  </div>
+</BaseLayout>
+
+<!-- Pagefind assets are generated into /pagefind during build. -->
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+<style is:global>
+  /* Theme the Pagefind UI to match the site tokens. */
+  :root {
+    --pagefind-ui-primary: var(--accent);
+    --pagefind-ui-text: var(--fg);
+    --pagefind-ui-background: var(--surface);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--surface);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: var(--radius-base);
+    --pagefind-ui-font: var(--font-sans);
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  function initSearch() {
+    const el = document.getElementById('search');
+    if (!el || el.dataset.ready) return;
+
+    function mount() {
+      if (typeof window.PagefindUI === 'undefined') return false;
+      el.dataset.ready = 'true';
+      new window.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+      });
+      return true;
+    }
+
+    if (mount()) return;
+    // Load the Pagefind UI bundle, then mount.
+    const s = document.createElement('script');
+    s.src = '/pagefind/pagefind-ui.js';
+    s.onload = mount;
+    s.onerror = () => {
+      el.innerHTML =
+        '<p class="font-mono text-sm text-muted">Search index not found. Build the site first.</p>';
+    };
+    document.head.appendChild(s);
+  }
+
+  initSearch();
+  document.addEventListener('astro:page-load', initSearch);
+</script>
